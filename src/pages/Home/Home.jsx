@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { LoadButton } from 'components';
 import { getTrendingMovies } from 'services';
+import { Link } from './Home.styled';
 
 export const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -36,9 +37,18 @@ export const Home = () => {
       {/* <img src="https://via.placeholder.com/960x240" alt="" /> */}
       <ul>
         {movies.map(({ id, title }) => (
-          <li key={id}>{title}</li>
+          <li key={id}>
+            <Link to={`movies/${id}`}> {title}</Link>
+          </li>
         ))}
       </ul>
+
+      {/* {movies.map(({ id, title }) => (
+        <Link to={`movies/${id}`} key={id}>
+          {title}
+        </Link>
+      ))} */}
+
       {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
     </main>
   );

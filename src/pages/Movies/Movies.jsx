@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import { SearchForm, LoadButton } from 'components';
 import { getSearchedMovies, alertOnRepeatedQuery } from 'services';
@@ -48,7 +49,9 @@ export const Movies = () => {
       <SearchForm onSubmit={searchFormSubmit} />
       <ul>
         {movies.map(({ id, title }) => (
-          <li key={id}>{title}</li>
+          <li key={id}>
+            <NavLink to={`${id}`}> {title}</NavLink>
+          </li>
         ))}
       </ul>
       {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}

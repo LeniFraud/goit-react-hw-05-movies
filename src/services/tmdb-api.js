@@ -27,6 +27,11 @@ export const getSearchedMovies = async (query, page) => {
   return { movies, totalPages: data.total_pages };
 };
 
+export const getMovieById = async id => {
+  const { data } = await axios.get(`movie/${id}`);
+  return data;
+};
+
 /*
 export default class TheMovieAPI {
   static BASE_URL = 'https://api.themoviedb.org/3/';

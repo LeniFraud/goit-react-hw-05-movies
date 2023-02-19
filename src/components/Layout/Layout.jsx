@@ -17,7 +17,7 @@ export const Layout = () => {
             Home
           </Link>
           <Link to="/movies">Movies</Link>
-          <Link to="/movies/:movieId">Details</Link>
+          {/* <Link to="/movies/:movieId">Details</Link> */}
         </Nav>
       </Header>
       <Outlet />

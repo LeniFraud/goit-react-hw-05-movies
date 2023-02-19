@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   max-width: 960px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 16px 40px;
 `;
 
 export const Header = styled.header`
@@ -38,7 +38,11 @@ export const Nav = styled.nav`
 `;
 
 export const Link = styled(NavLink)`
-  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  min-height: 40px;
   font-weight: 500;
   border-radius: 4px;
   transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
