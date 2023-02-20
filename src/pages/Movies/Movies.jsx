@@ -47,14 +47,18 @@ export const Movies = () => {
   return (
     <main>
       <SearchForm onSubmit={searchFormSubmit} />
-      <ul>
-        {movies.map(({ id, title }) => (
-          <li key={id}>
-            <NavLink to={`${id}`}> {title}</NavLink>
-          </li>
-        ))}
-      </ul>
-      {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
+      {!!movies.length && (
+        <>
+          <ul>
+            {movies.map(({ id, title }) => (
+              <li key={id}>
+                <NavLink to={`${id}`}> {title}</NavLink>
+              </li>
+            ))}
+          </ul>
+          {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
+        </>
+      )}
     </main>
   );
 };

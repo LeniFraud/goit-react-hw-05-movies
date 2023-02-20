@@ -33,23 +33,27 @@ export const Home = () => {
 
   return (
     <main>
-      <h2>Trending movies</h2>
-      {/* <img src="https://via.placeholder.com/960x240" alt="" /> */}
-      <ul>
-        {movies.map(({ id, title }) => (
-          <li key={id}>
-            <Link to={`movies/${id}`}> {title}</Link>
-          </li>
-        ))}
-      </ul>
+      {!!movies.length && (
+        <>
+          <h2>Trending movies</h2>
+          {/* <img src="https://via.placeholder.com/960x240" alt="" /> */}
+          <ul>
+            {movies.map(({ id, title }) => (
+              <li key={id}>
+                <Link to={`movies/${id}`}> {title}</Link>
+              </li>
+            ))}
+          </ul>
 
-      {/* {movies.map(({ id, title }) => (
+          {/* {movies.map(({ id, title }) => (
         <Link to={`movies/${id}`} key={id}>
           {title}
         </Link>
       ))} */}
 
-      {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
+          {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
+        </>
+      )}
     </main>
   );
 };

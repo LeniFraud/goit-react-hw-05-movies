@@ -21,7 +21,12 @@ export const Layout = () => {
         </Nav>
       </Header>
       <Outlet />
-      <ToastContainer autoClose={2500} newestOnTop theme="colored" />
+      <ToastContainer
+        autoClose={2500}
+        position="top-center"
+        newestOnTop
+        theme="colored"
+      />
     </Container>
   );
 };
