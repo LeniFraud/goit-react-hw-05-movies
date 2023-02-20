@@ -1,9 +1,15 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
+export const Box = styled.div`
+  margin-bottom: 16px;
+`;
+
 export const Wrapper = styled.div`
   display: flex;
   gap: 12px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 `;
 
 export const Link = styled(NavLink)`

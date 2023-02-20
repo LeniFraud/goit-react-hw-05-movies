@@ -1,65 +1,65 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import PropTypes from 'prop-types';
-import { getMovieReviews } from 'services';
+import { Loader } from 'components';
+import { getMovieReviews, getAvatarUrl, alertOnError } from 'services';
+import { Item } from './Reviews.styled';
 
-export const Reviews = () => {
-  const { movieId } = useParams();
-
+export default function Reviews() {
   const [reviews, setReviews] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const { movieId } = useParams();
 
   useEffect(() => {
     const getReviews = async () => {
       try {
-        // setStatus(Status.PENDING);
+        setLoading(true);
         const reviewsInfo = await getMovieReviews(movieId);
-        console.log(reviewsInfo);
-        // alertOnResolved(images.length, totalImages, page);
+        // if (reviewsInfo.length === 0) return;
         setReviews(reviewsInfo);
-        // setTotalPages(totalPages);
-        // setStatus(Status.RESOLVED);
-      } catch (error) {
-        // setStatus(Status.REJECTED);
-        // alertOnRejected();
-        console.log(error);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     getReviews();
   }, [movieId]);
 
-  const checkPoster = posterUrl =>
-    posterUrl && !posterUrl.includes('http')
-      ? `https://image.tmdb.org/t/p/w45${posterUrl}`
-      : 'https://dummyimage.com/45x45/ccc/fff.jpg&text=M';
+  useEffect(() => {
+    if (error) alertOnError();
+  }, [error]);
 
   return (
     <>
+      {loading && <Loader />}
       {reviews && (
-        <>
-          <h3>Reviews</h3>
-          <ul>
-            {reviews.map(
-              ({
-                id,
-                author,
-                author_details: { avatar_path },
-                content,
-                created_at,
-              }) => (
-                <li key={id}>
-                  <img src={checkPoster(avatar_path)} alt={author} />
-                  <p>
-                    {author}
-                    <span> {new Date(created_at).toLocaleDateString()}</span>
-                  </p>
-                  <p>{content}</p>
-                </li>
-              )
-            )}
-          </ul>
-        </>
+        <ul>
+          {reviews.map(
+            ({
+              id,
+              author,
+              author_details: { avatar_path },
+              content,
+              created_at,
+            }) => (
+              <Item key={id}>
+                <img src={getAvatarUrl(avatar_path)} alt={author} />
+                <p>
+                  <b>Author:</b> {author}
+                </p>
+                <p>{new Date(created_at).toLocaleDateString()}</p>
+                <p>{content}</p>
+              </Item>
+            )
+          )}
+        </ul>
+      )}
+      {reviews?.length === 0 && (
+        <p>We don't have any reviews for this movie.</p>
       )}
     </>
   );
-};
+}

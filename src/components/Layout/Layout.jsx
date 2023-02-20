@@ -1,8 +1,11 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Container, Header, Logo, Nav, Link } from './Layout.styled';
+import { routes } from 'utils/routes';
 import logo from '../../utils/logo.png';
+import { Loader } from 'components';
+import { Container, Header, Logo, Nav, Link } from './Layout.styled';
 
 export const Layout = () => {
   return (
@@ -13,14 +16,15 @@ export const Layout = () => {
           <span>My</span>Movies
         </Logo>
         <Nav>
-          <Link to="/" end>
+          <Link to={routes.HOME} end>
             Home
           </Link>
-          <Link to="/movies">Movies</Link>
-          {/* <Link to="/movies/:movieId">Details</Link> */}
+          <Link to={routes.MOVIES}>Movies</Link>
         </Nav>
       </Header>
-      <Outlet />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
       <ToastContainer
         autoClose={2500}
         position="top-center"

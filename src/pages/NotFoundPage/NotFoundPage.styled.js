@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 12px;
 `;
 
@@ -10,7 +11,7 @@ export const Link = styled(NavLink)`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 200px;
+  max-width: 200px;
   min-height: 40px;
   color: #ffffff;
   font-weight: 500;

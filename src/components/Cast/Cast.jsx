@@ -1,55 +1,53 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import PropTypes from 'prop-types';
-import { getMovieCast } from 'services';
+import { Loader } from 'components';
+import { getMovieCast, getPhotoUrl, alertOnError } from 'services';
+import { Item } from './Cast.styled';
 
-export const Cast = () => {
-  const { movieId } = useParams();
-
+export default function Cast() {
   const [cast, setCast] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const { movieId } = useParams();
 
   useEffect(() => {
     const getCast = async () => {
       try {
-        // setStatus(Status.PENDING);
+        setLoading(true);
         const castInfo = await getMovieCast(movieId);
-        console.log(castInfo);
-        // alertOnResolved(images.length, totalImages, page);
+        // if (castInfo.length === 0) return;
         setCast(castInfo);
-        // setTotalPages(totalPages);
-        // setStatus(Status.RESOLVED);
-      } catch (error) {
-        // setStatus(Status.REJECTED);
-        // alertOnRejected();
-        console.log(error);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     getCast();
   }, [movieId]);
 
-  const checkPoster = posterUrl =>
-    posterUrl
-      ? `https://image.tmdb.org/t/p/w300${posterUrl}`
-      : 'https://dummyimage.com/300x450/ccc/fff.jpg&text=No+photo';
+  useEffect(() => {
+    if (error) alertOnError();
+  }, [error]);
 
   return (
     <>
+      {loading && <Loader />}
       {cast && (
-        <>
-          <h3>Cast</h3>
-          <ul>
-            {cast.map(({ id, original_name, character, profile_path }) => (
-              <li key={id}>
-                <img src={checkPoster(profile_path)} alt={original_name} />
-                <p>
-                  {original_name} - <span>{character}</span>
-                </p>
-              </li>
-            ))}
-          </ul>
-        </>
+        <ul>
+          {cast.map(({ id, original_name, character, profile_path }) => (
+            <Item key={id}>
+              <img src={getPhotoUrl(profile_path)} alt={original_name} />
+              <p>
+                <b>{original_name}</b> as <span>"{character}"</span>
+              </p>
+            </Item>
+          ))}
+        </ul>
       )}
+      {cast?.length === 0 && <p>There is no info about cast.</p>}
     </>
   );
-};
+}
