@@ -22,10 +22,17 @@ export default function MoviesPage() {
   useEffect(() => {
     if (!query) return;
 
+    const controller = new AbortController();
+
     const getMovies = async () => {
       try {
         setLoading(true);
-        const { movies, totalResults } = await getSearchedMovies(query, page);
+        const { movies, totalResults, cancel } = await getSearchedMovies(
+          query,
+          page,
+          controller.signal
+        );
+        if (cancel) return;
         alertOnSearch(movies.length, totalResults);
         if (totalResults === 0) return setSearchParams('');
         setMovies(prevMovies => [...prevMovies, ...movies]);
@@ -38,6 +45,7 @@ export default function MoviesPage() {
     };
 
     getMovies();
+    return () => controller.abort();
   }, [page, query, setSearchParams]);
 
   useEffect(() => {

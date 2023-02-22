@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loader } from 'components';
-import { getMovieReviews, getAvatarUrl, alertOnError } from 'services';
+import { getMovieReviews, alertOnError } from 'services';
 import { Item } from './Reviews.styled';
 
 export default function Reviews() {
@@ -12,11 +12,16 @@ export default function Reviews() {
   const { movieId } = useParams();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const getReviews = async () => {
       try {
         setLoading(true);
-        const reviewsInfo = await getMovieReviews(movieId);
-        // if (reviewsInfo.length === 0) return;
+        const { reviewsInfo, cancel } = await getMovieReviews(
+          movieId,
+          controller.signal
+        );
+        if (cancel) return;
         setReviews(reviewsInfo);
       } catch (err) {
         setError(err);
@@ -37,24 +42,16 @@ export default function Reviews() {
       {loading && <Loader />}
       {reviews && (
         <ul>
-          {reviews.map(
-            ({
-              id,
-              author,
-              author_details: { avatar_path },
-              content,
-              created_at,
-            }) => (
-              <Item key={id}>
-                <img src={getAvatarUrl(avatar_path)} alt={author} />
-                <p>
-                  <b>Author:</b> {author}
-                </p>
-                <p>{new Date(created_at).toLocaleDateString()}</p>
-                <p>{content}</p>
-              </Item>
-            )
-          )}
+          {reviews.map(({ id, author, avatar_path, content, created_at }) => (
+            <Item key={id}>
+              <img src={avatar_path} alt={author} />
+              <p>
+                <b>Author:</b> {author}
+              </p>
+              <p>{created_at}</p>
+              <p>{content}</p>
+            </Item>
+          ))}
         </ul>
       )}
       {reviews?.length === 0 && (

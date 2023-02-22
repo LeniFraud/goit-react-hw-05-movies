@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loader } from 'components';
-import { getMovieCast, getPhotoUrl, alertOnError } from 'services';
+import { getMovieCast, alertOnError } from 'services';
 import { Item } from './Cast.styled';
 
 export default function Cast() {
@@ -12,11 +12,16 @@ export default function Cast() {
   const { movieId } = useParams();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const getCast = async () => {
       try {
         setLoading(true);
-        const castInfo = await getMovieCast(movieId);
-        // if (castInfo.length === 0) return;
+        const { castInfo, cancel } = await getMovieCast(
+          movieId,
+          controller.signal
+        );
+        if (cancel) return;
         setCast(castInfo);
       } catch (err) {
         setError(err);
@@ -26,6 +31,7 @@ export default function Cast() {
     };
 
     getCast();
+    return () => controller.abort();
   }, [movieId]);
 
   useEffect(() => {
@@ -37,11 +43,11 @@ export default function Cast() {
       {loading && <Loader />}
       {cast && (
         <ul>
-          {cast.map(({ id, original_name, character, profile_path }) => (
+          {cast.map(({ id, name, character, profile_path }) => (
             <Item key={id}>
-              <img src={getPhotoUrl(profile_path)} alt={original_name} />
+              <img src={profile_path} alt={name} />
               <p>
-                <b>{original_name}</b> as <span>"{character}"</span>
+                <b>{name}</b> as <span>"{character}"</span>
               </p>
             </Item>
           ))}

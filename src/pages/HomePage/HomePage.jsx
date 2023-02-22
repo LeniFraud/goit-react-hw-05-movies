@@ -12,10 +12,15 @@ export default function HomePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     const getMovies = async () => {
       try {
         setLoading(true);
-        const { movies, totalPages } = await getTrendingMovies(page);
+        const { movies, totalPages, cancel } = await getTrendingMovies(
+          page,
+          controller.signal
+        );
+        if (cancel) return;
         setMovies(prevMovies => [...prevMovies, ...movies]);
         setTotalPages(totalPages);
       } catch (err) {
@@ -26,6 +31,7 @@ export default function HomePage() {
     };
 
     getMovies();
+    return () => controller.abort();
   }, [page]);
 
   useEffect(() => {
