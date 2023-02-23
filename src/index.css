@@ -37,3 +37,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --color-dark-grey: #3a3a3b;
+  --color-middle-grey: #717379;
+  --color-grey: #9d96a6;
+  --color-light-grey: #aaadae;
+  --color-ultralight-grey: #ebdfff;
+  --color-brown: #444243;
+  --color-light-accent: #c8aeeb;
+  --color-accent: #9a66df;
+  --color-dark-accent: #8256b9;
+  --color-ultradark-accent: #5a2c92;
+}

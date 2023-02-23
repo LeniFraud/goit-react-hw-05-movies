@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { SearchForm, LoadButton, MoviesGallery, Loader } from 'components';
+import {
+  SearchForm,
+  LoadButton,
+  MoviesGallery,
+  Loader,
+  Container,
+} from 'components';
 import {
   getSearchedMovies,
   alertOnSearch,
@@ -66,10 +72,12 @@ export default function MoviesPage() {
 
   return (
     <main>
-      <SearchForm onSubmit={searchFormSubmit} />
-      {loading && <Loader />}
-      {!!movies.length && <MoviesGallery movies={movies} path={''} />}
-      {totalResults > 20 && <LoadButton onClick={onLoadMoreBtnClick} />}
+      <Container>
+        <SearchForm onSubmit={searchFormSubmit} />
+        {loading && <Loader />}
+        {!!movies.length && <MoviesGallery movies={movies} path={''} />}
+        {totalResults > 20 && <LoadButton onClick={onLoadMoreBtnClick} />}
+      </Container>
     </main>
   );
 }

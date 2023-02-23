@@ -1,7 +1,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useParams, useLocation, Outlet } from 'react-router-dom';
 import { getMovieInfo, alertOnError } from 'services';
-import { BackLink, Loader, MovieCard } from 'components';
+import { BackLink, Container, Loader, MovieCard } from 'components';
 import { Wrapper, Link } from './MovieDetailsPage.styled';
 
 export default function MovieDetailsPage() {
@@ -36,27 +36,29 @@ export default function MovieDetailsPage() {
 
   return (
     <main>
-      {loading && <Loader />}
-      {!!movie && (
-        <>
-          <BackLink to={backLinkHref}>
-            {isMoviesBackLink ? 'Back to Movies' : 'Back to HomePage'}
-          </BackLink>
-          <MovieCard movie={movie} />
-          <h5>Additional information</h5>
-          <Wrapper>
-            <Link to="cast" state={{ from: backLinkHref }}>
-              Cast
-            </Link>
-            <Link to="reviews" state={{ from: backLinkHref }}>
-              Reviews
-            </Link>
-          </Wrapper>
-          <Suspense fallback={<Loader />}>
-            <Outlet />
-          </Suspense>
-        </>
-      )}
+      <Container>
+        {loading && <Loader />}
+        {!!movie && (
+          <div>
+            <BackLink to={backLinkHref}>
+              {isMoviesBackLink ? 'Back to Movies' : 'Back to HomePage'}
+            </BackLink>
+            <MovieCard movie={movie} />
+            <h5>Additional information</h5>
+            <Wrapper>
+              <Link to="cast" state={{ from: backLinkHref }}>
+                Cast
+              </Link>
+              <Link to="reviews" state={{ from: backLinkHref }}>
+                Reviews
+              </Link>
+            </Wrapper>
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
+          </div>
+        )}
+      </Container>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { routes } from 'utils/routes';
-import { LoadButton, MoviesGallery, Loader } from 'components';
+import { LoadButton, MoviesGallery, Loader, Container } from 'components';
 import { getTrendingMovies, alertOnError } from 'services';
 import { Title } from './HomePage.styled';
 
@@ -42,12 +42,14 @@ export default function HomePage() {
 
   return (
     <main>
-      <Title>Trending today</Title>
-      {loading && <Loader />}
-      {!!movies.length && (
-        <MoviesGallery movies={movies} path={routes.HOME_GALLERY} />
-      )}
-      {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
+      <Container>
+        <Title>Trending today</Title>
+        {loading && <Loader />}
+        {!!movies.length && (
+          <MoviesGallery movies={movies} path={routes.HOME_GALLERY} />
+        )}
+        {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
+      </Container>
     </main>
   );
 }
