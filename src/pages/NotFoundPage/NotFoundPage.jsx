@@ -1,10 +1,10 @@
 import { Container } from 'components';
 import { routes } from 'utils/routes';
-import { Wrapper, Link } from './NotFoundPage.styled';
+import { Wrapper, Link, MainBox } from './NotFoundPage.styled';
 
 export default function NotFoundPage() {
   return (
-    <main>
+    <MainBox>
       <Container>
         <Wrapper>
           <p>404</p>
@@ -14,6 +14,6 @@ export default function NotFoundPage() {
           </Link>
         </Wrapper>
       </Container>
-    </main>
+    </MainBox>
   );
 }

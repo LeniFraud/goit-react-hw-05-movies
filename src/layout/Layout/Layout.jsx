@@ -4,10 +4,11 @@ import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header, Footer } from 'layout';
 import { Loader } from 'components';
+import { MainContainer } from './Layout.styled';
 
 export const Layout = () => {
   return (
-    <div>
+    <MainContainer>
       <Header />
       <Suspense fallback={<Loader />}>
         <Outlet />
@@ -19,6 +20,6 @@ export const Layout = () => {
         theme="colored"
       />
       <Footer />
-    </div>
+    </MainContainer>
   );
 };

@@ -1,6 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
+export const MainBox = styled.main`
+  flex-grow: 1;
+`;
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

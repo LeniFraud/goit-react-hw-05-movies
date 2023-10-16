@@ -13,6 +13,7 @@ import {
   alertOnRepeatedQuery,
   alertOnError,
 } from 'services';
+import { MainBox } from './MoviesPage.styled';
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
@@ -71,13 +72,13 @@ export default function MoviesPage() {
   const onLoadMoreBtnClick = () => setPage(prevPage => prevPage + 1);
 
   return (
-    <main>
+    <MainBox>
       <Container>
         <SearchForm onSubmit={searchFormSubmit} />
         {loading && <Loader />}
         {!!movies.length && <MoviesGallery movies={movies} path={''} />}
         {totalResults > 20 && <LoadButton onClick={onLoadMoreBtnClick} />}
       </Container>
-    </main>
+    </MainBox>
   );
 }

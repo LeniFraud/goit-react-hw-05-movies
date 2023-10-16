@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { routes } from 'utils/routes';
 import { LoadButton, MoviesGallery, Loader, Container } from 'components';
 import { getTrendingMovies, alertOnError } from 'services';
-import { Title } from './HomePage.styled';
+import { Title, MainBox } from './HomePage.styled';
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
@@ -41,7 +41,7 @@ export default function HomePage() {
   const onLoadMoreBtnClick = () => setPage(prevPage => prevPage + 1);
 
   return (
-    <main>
+    <MainBox>
       <Container>
         <Title>Trending today</Title>
         {loading && <Loader />}
@@ -50,6 +50,6 @@ export default function HomePage() {
         )}
         {totalPages > 1 && <LoadButton onClick={onLoadMoreBtnClick} />}
       </Container>
-    </main>
+    </MainBox>
   );
 }

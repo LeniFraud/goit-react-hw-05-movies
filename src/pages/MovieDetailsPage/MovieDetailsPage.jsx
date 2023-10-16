@@ -2,7 +2,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useParams, useLocation, Outlet } from 'react-router-dom';
 import { getMovieInfo, alertOnError } from 'services';
 import { BackLink, Container, Loader, MovieCard } from 'components';
-import { Wrapper, Link } from './MovieDetailsPage.styled';
+import { Wrapper, Link, MainBox } from './MovieDetailsPage.styled';
 
 export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
@@ -35,7 +35,7 @@ export default function MovieDetailsPage() {
   }, [error]);
 
   return (
-    <main>
+    <MainBox>
       <Container>
         {loading && <Loader />}
         {!!movie && (
@@ -59,6 +59,6 @@ export default function MovieDetailsPage() {
           </div>
         )}
       </Container>
-    </main>
+    </MainBox>
   );
 }
